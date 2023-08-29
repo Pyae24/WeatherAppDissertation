@@ -163,7 +163,7 @@ function displayMeteo(data){
         var day = $("#meteo-day-" + (i + 1));
         var icon = day.find(".meteo-temperature .wi");
         var temperature = day.find(".meteo-temperature .data");
-        var pop = day.find(".meteo-humidity .meteo-block-data");
+        var pop = day.find(".meteo-pop .meteo-block-data");
         var wind = day.find(".meteo-wind .meteo-block-data");
         var sunrise = day.find(".meteo-sunrise .meteo-block-data");
         var sunset = day.find(".meteo-sunset .meteo-block-data");
@@ -174,6 +174,22 @@ function displayMeteo(data){
         pop.text(dailyPopValues[i].toFixed(2) + "%");
         wind.text(meteo.wind.speed + " km/h");
         tempMoyenne += meteo.main.temp;
+
+        var precipitations = [];
+        for (var j = 0; j < 4; j++) {
+            var forecast = data.list[i * 8 + j];
+
+            var popDescription = day.find(".meteo-pop-description-" + (j+1) + " .meteo-block-data");
+            popDescription.text((forecast.pop * 100).toFixed(2) + "%");
+
+            // Assuming the precipitation data is under a "pop" field
+            // precipitations.push((forecast.pop * 100).toFixed(2));
+        }
+
+        // Populate the 3h precipitation forecasts on the card back
+        // var precipContainer = day.find(".flip-card-back");
+        // You can adjust the format or use some other container to show this data.
+        // precipContainer.append("<p>3h Precipitations: " + precipitations.join("%, ") + "%</p>");
     }
     displaySunriseSunset(data.city.coord.lat, data.city.coord.lon);
     // Get custom gradient according to the temperature
